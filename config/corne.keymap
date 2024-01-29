@@ -143,7 +143,7 @@
 &none       &kp BSLH    &kp PRCNT       &kp DOLLAR      &none               &none           &kp CARET       &kp LEFT_BRACE      &kp RIGHT_BRACE     &none
 &kp STAR    &kp LPAR    &kp RPAR        &kp COLON       &kp TAB             &kp DEL         &kp DQT         &kp LEFT_BRACKET    &kp RIGHT_BRACKET   &kp SEMICOLON 
 &none       &kp GRAVE   &kp AT          &kp AMPERSAND   &none               &none           &kp HASH        &kp LESS_THAN       &kp GREATER_THAN    &to FUN
-                        &none           &trans          &none               &kp LSHFT       &kp ESC         &kp LALT
+                        &none           &trans          &none               &sk LSHFT       &kp ESC         &sk LALT
             >;
         };
 
@@ -165,8 +165,8 @@
             bindings = <
 &none       &kp N4      &kp N5          &kp N6          &none               &none           &kp PIPE        &kp MINUS       &kp SLASH   &none    
 &kp N0      &kp N1      &kp N2          &kp N3          &kp BKSP            &kp CAPS        &kp APOS        &kp UNDERSCORE  &kp EQUAL   &kp STAR
-&kp TILDE   &kp N7      &kp N8          &kp N9          &kp PERIOD          &none           &kp PLUS        &kp QUESTION    &kp DOT     &none    
-                        &to NAV         &kp LGUI        &kp SPACE           &none           &trans          &none       
+&kp TILDE   &kp N7      &kp N8          &kp N9          &kp PERIOD          &none           &kp PLUS        &kp QUESTION    &kp EXCL    &none    
+                        &to NAV         &sk LGUI        &kp SPACE           &none           &trans          &none       
             >;
         };
 
@@ -176,20 +176,20 @@
 // |       |       |       |       |       |     | HOME  |  PGDN | PGUP  |  END  |       |
 // |       |       |       |       |       |     |       |       |       |       |       |
 // |-------|-------|-------|-------|-------|     |-------|-------|-------|-------|-------|
-// |       |       |       |       |       |     |   ←   |   ↓   |   ↑   |   →   |       |
+// |       |       |       |       |  TAB  |     |   ←   |   ↓   |   ↑   |   →   |       |
 // |       |       |       |       |       |     |       |       |       |       |       |
 // |-------|-------|-------|-------|-------|     |-------|-------|-------|-------|-------|
 // |       |       |       |       |       |     | prvw  | nxtw  | prvt  | nxtt  |       |
 // |       |       |       |       |       |     |       |       |       |       |       |
 // |-------|-------|-------|-------|-------|     |-------|-------|-------|-------|-------|
-//                 | /clmk |       |  GUI  |     |  CTL  |  SHFT |  ALT  |
+//                 | /clmk |  GUI  |  SHFT |     |  SHFT |  CTL  |  ALT  |
 //                 |       |       |       |     |       |       |       |                 
 //                 |-------|-------|-------|     |-------|-------|-------|                
             bindings = <
 &none       &none       &none           &none           &none               &kp HOME        &kp PG_DN       &kp PG_UP       &kp END         &none      
-&none       &none       &none           &none           &none               &kp LEFT        &kp DOWN        &kp UP          &kp RIGHT       &none   
+&none       &none       &none           &none           &kp TAB             &kp LEFT        &kp DOWN        &kp UP          &kp RIGHT       &none   
 &none       &none       &none           &none           &none               &kp LA(LS(TAB)) &kp LA(TAB)     &kp LC(LS(TAB)) &kp LC(TAB)     &none     
-                        &to CLMK        &none           &kp LGUI            &kp LCTL        &kp LSHFT       &kp LALT    
+                        &to CLMK        &kp LGUI        &kp LSHFT           &kp LSHFT       &kp LCTL        &kp LALT    
             >;
         };
 
