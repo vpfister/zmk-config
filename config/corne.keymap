@@ -21,8 +21,8 @@
 
 / {
     chosen {
-        zmk,matrix_transform = &default_transform;
-        // zmk,matrix_transform = &five_column_transform;
+        // zmk,matrix_transform = &default_transform;
+        zmk,matrix_transform = &five_column_transform;
     };
 };
 
@@ -168,17 +168,39 @@
             >;
         };
 
-
         nav_layer {
             display-name = "NAV";
 // |-------|-------|-------|-------|-------|     |-------|-------|-------|-------|-------|
-// |       |   F4  |   F5  |   F6  |  F10  |     | HOME  |  PGDN | PGUP  |  END  | BLDR  |
+// |       |       |       |       |       |     | HOME  |  PGDN | PGUP  |  END  | BLDR  |
 // |       |       |       |       |       |     |       |       |       |       |       |
 // |-------|-------|-------|-------|-------|     |-------|-------|-------|-------|-------|
-// |       |   F1  |   F2  |   F3  |  F11  |     |   ←   |   ↓   |   ↑   |   →   |       |
+// |       |       |       |       |       |     |   ←   |   ↓   |   ↑   |   →   |       |
 // |       |       |       |       |       |     |       |       |       |       |       |
 // |-------|-------|-------|-------|-------|     |-------|-------|-------|-------|-------|
-// |       |   F7  |   F8  |   F9  |  F12  |     |  BT0  |  BT1  |  BT2  |  BT3  | BTCLR |
+// |       |       |       |       |       |     |  BT0  |  BT1  |  BT2  |  BT3  | BTCLR |
+// |       |       |       |       |       |     |       |       |       |       |       |
+// |-------|-------|-------|-------|-------|     |-------|-------|-------|-------|-------|
+//                 |       |       | >CLMK |     |       |       |       |
+//                 |  gui  |  ctrl |       |     |       | shift |  alt  |                 
+//                 |-------|-------|-------|     |-------|-------|-------|                
+            bindings = <
+&none       &kp F4      &kp F5          &kp F6          &kp F10             &kp HOME        &kp PG_DN       &kp PG_UP       &kp END         &bootloader
+&none       &kp F1      &kp F2          &kp F3          &kp F11             &kp LEFT        &kp DOWN        &kp UP          &kp RIGHT       &none   
+&none       &kp F7      &kp F8          &kp F9          &kp F12             &bt BT_SEL 0    &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3    &bt BT_CLR
+                        &kp LGUI        &kp LCTL        &to CLMK            &none           &kp LSHFT       &trans      
+            >;
+        };
+
+        fun_layer {
+            display-name = "FUN";
+// |-------|-------|-------|-------|-------|     |-------|-------|-------|-------|-------|
+// |       |   F4  |   F5  |   F6  |  F10  |     |  BT0  | BTNXT |  BT2  |  BT3  | BTCLR |
+// |       |       |       |       |       |     |       |       |       |       |       |
+// |-------|-------|-------|-------|-------|     |-------|-------|-------|-------|-------|
+// |       |   F1  |   F2  |   F3  |  F11  |     |  BT1  | BTPRV |       |       |       |
+// |       |       |       |       |       |     |       |       |       |       |       |
+// |-------|-------|-------|-------|-------|     |-------|-------|-------|-------|-------|
+// |       |   F7  |   F8  |   F9  |  F12  |     |  BT2  | BTCLR |  BT2  |  BT3  | BTCLR |
 // |       |       |       |       |       |     |       |       |       |       |       |
 // |-------|-------|-------|-------|-------|     |-------|-------|-------|-------|-------|
 //                 |       |       | >CLMK |     |       |       |       |
