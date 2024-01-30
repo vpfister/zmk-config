@@ -179,7 +179,7 @@
 // |       |       |       |       |  TAB  |     |   ←   |   ↓   |   ↑   |   →   |       |
 // |       |       |       |       |       |     |       |       |       |       |       |
 // |-------|-------|-------|-------|-------|     |-------|-------|-------|-------|-------|
-// |       |       |       |       |       |     | prvw  | nxtw  | prvt  | nxtt  |       |
+// |       |       |       |       |       |     | prvw  | nxtw  | prvt  | nxtt  | /fun  |
 // |       |       |       |       |       |     |       |       |       |       |       |
 // |-------|-------|-------|-------|-------|     |-------|-------|-------|-------|-------|
 //                 | /clmk |  GUI  |  SHFT |     |  SHFT |  CTL  |  ALT  |
@@ -188,7 +188,7 @@
             bindings = <
 &none       &none       &none           &none           &none               &kp HOME        &kp PG_DN       &kp PG_UP       &kp END         &none      
 &none       &none       &none           &none           &kp TAB             &kp LEFT        &kp DOWN        &kp UP          &kp RIGHT       &none   
-&none       &none       &none           &none           &none               &kp LA(LS(TAB)) &kp LA(TAB)     &kp LC(LS(TAB)) &kp LC(TAB)     &none     
+&none       &none       &none           &none           &none               &kp LA(LS(TAB)) &kp LA(TAB)     &kp LC(LS(TAB)) &kp LC(TAB)     &mo FUN   
                         &to CLMK        &kp LGUI        &kp LSHFT           &kp LSHFT       &kp LCTL        &kp LALT    
             >;
         };
