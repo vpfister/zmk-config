@@ -1,0 +1,73 @@
+/*                KEY POSITIONS
+
+  ╭─────────────────────╮ ╭─────────────────────╮
+  │ LT4 LT3 LT2 LT1 LT0 │ │ RT0 RT1 RT2 RT3 RT4 │
+  │ LM4 LM3 LM2 LM1 LM0 │ │ RM0 RM1 RM2 RM3 RM4 │
+  │ LB4 LB3 LB2 LB1 LB0 │ │ RB0 RB1 RB2 RB3 RB4 │
+  ╰───────╮ LH2 LH1 LH0 │ │ RH0 RH1 RH2 ╭───────╯
+          ╰─────────────╯ ╰─────────────╯ */
+
+#define COMBO(NAME, BINDINGS, KEYPOS, LAYERS, TERM, QUICKTAP, ...) \
+    combo_##NAME { \
+        timeout-ms = <TERM>; \
+        bindings = <BINDINGS>; \
+        key-positions = <KEYPOS>; \
+        layers = <LAYERS>; \
+        require-prior-idle-ms = <QUICKTAP>; \
+        __VA_ARGS__ \
+    };
+
+#define ALL DEF QWE SYM NAV FUN MSE ACC
+
+/ {
+    combos {
+        compatible = "zmk,combos";
+
+// border keys
+COMBO(q,      &kp Q,         LT3 LT2,     DEF QWE,      80,  50)
+COMBO(k,      &kp K,         LT2 LT1,     DEF,          80,  50)
+COMBO(n,      &kp N,         LT2 LT1,     QWE,          80,  50)
+COMBO(z,      &kp Z,         LB3 LB2,     DEF QWE,      80,  50)
+COMBO(v,      &kp V,         LB2 LB1,     DEF,          40,  50)
+COMBO(b,      &kp B,         LB2 LB1,     QWE,          80,  50)
+
+// controls
+COMBO(tab,    &kp TAB,       LM2 LM1,     DEF QWE SYM,  40, 100)
+COMBO(bspc,   &kp BSPC,      RM1 RM2,     DEF QWE SYM,  40, 100)
+COMBO(esc,    &kp ESC,       LM3 LM2 LM1, DEF QWE SYM,  40,   0)
+COMBO(ret,    &kp RET,       RM1 RM2 RM3, DEF QWE SYM,  40,   0)
+
+// symbols
+COMBO(sqt,    &kp SQT,       RT1 RT2,     DEF QWE SYM,  40, 100)
+COMBO(grave,  &kp GRAVE,     RT2 RT3,     DEF QWE SYM,  40, 100)
+COMBO(bslh,   &kp BSLH,      RB1 RB2,     DEF QWE SYM,  40, 100)
+COMBO(slsh,   &kp SLASH,     RB2 RB3,     DEF QWE SYM,  40,  50)
+COMBO(semi,   &kp SEMI,      RB1 RB2 RB3, DEF QWE SYM,  40, 100)
+COMBO(lpar,   &kp LPAR,      LM3 LM1,     DEF QWE SYM,  40, 100)
+COMBO(rpar,   &kp RPAR,      RM1 RM3,     DEF QWE SYM,  40, 100)
+COMBO(lbkt,   &kp LBKT,      LM3 LM2,     DEF QWE SYM,  40, 100)
+COMBO(rbkt,   &kp RBKT,      RM2 RM3,     DEF QWE SYM,  40, 100)
+
+COMBO(excl,   &kp EXCL,      LT3 LT2,     SYM,          40, 100)
+COMBO(tilde,  &kp TILDE,     LT2 LT1,     SYM,          40, 100)
+
+// mod and layers
+COMBO(mouse,  &tog MSE,      LB3 LB2 LB1, DEF QWE MSE, 100, 100)
+
+COMBO(todef,  &to DEF,       LM1 RM1,     ALL,          60, 200)
+COMBO(capswd, &caps_word,    LM1 RM1,     DEF QWE,      60, 200)
+COMBO(lock,   &kp LG(L),     LT1 LT0,     DEF QWE,      80, 500)
+
+// NAV
+COMBO(winq,   &kp LA(F4),    LT3 LT2,     NAV,          80, 200)
+COMBO(undo,   &kp LC(Z),     LB3 LB2,     NAV,          80,  50)
+COMBO(play,   &kp C_PP,      LT0 LM0,     NAV,         200, 200)
+
+// FUN
+COMBO(btprv,  &bt BT_PRV,    RM1 RM2,     FUN,         100, 200)
+COMBO(btnxt,  &bt BT_NXT,    RM2 RM3,     FUN,         100, 200)
+COMBO(btclr,  &bt BT_CLR,    RB2 RB3,     FUN,         100, 200)
+COMBO(studio, &studio_unlock,RB1 RB2,     FUN,         100, 200)
+COMBO(bootld, &bootloader,   LT0 RT0,     FUN,         100, 500)
+    };
+};

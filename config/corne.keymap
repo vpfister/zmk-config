@@ -8,7 +8,7 @@
         &kp LGUI LH RH &smart_mouse                                            \
     )
 
-#include "zmk-helpers/key-labels/36.h"
-#include "base.keymap"
+#include "includes/keys_36k.dtsi"
+#include "includes/layout_36k.dtsi"
 
 /{ chosen { zmk,physical-layout = &foostan_corne_5col_layout; }; };
