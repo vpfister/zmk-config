@@ -65,7 +65,7 @@ COMBO(colon,  &kp COLON,     RB1 RB2 RB3, SYM,          40, 100)
 COMBO(mouse,  &tog MSE,      LB3 LB2 LB1, DEF QWE MSE, 100, 100)
 
 COMBO(todef,  &to DEF,       LM0 RM0,     ALL,          100, 200)
-COMBO(capswd, &caps_word,    LM1 RM1,     DEF QWE,      80, 200)
+COMBO(capswd, &caps_word,    LM1 RM1,     DEF QWE,       40, 200)
 COMBO(lock,   &kp LG(L),     LT0 RT0,     FUN,          80, 500)
 
 // NAV

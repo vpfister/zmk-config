@@ -55,13 +55,13 @@
             bindings = <&kp>, <&kp>;
             hold-trigger-key-positions = <KEYS_R THUMBS>;
             hold-trigger-on-release;
-            require-prior-idle-ms = <100>;
+            require-prior-idle-ms = <150>;
         };
         asl: alpha_shift_l {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             tapping-term-ms = <200>;
-            quick-tap-ms = <150>;
+            quick-tap-ms = <100>;
             flavor = "balanced";
             bindings = <&kp>, <&kp>;
             hold-trigger-key-positions = <KEYS_R THUMBS>;
@@ -76,13 +76,13 @@
             bindings = <&kp>, <&kp>;
             hold-trigger-key-positions = <KEYS_L THUMBS>;
             hold-trigger-on-release;
-            require-prior-idle-ms = <100>;
+            require-prior-idle-ms = <150>;
         };
         asr: alpha_shift_r {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             tapping-term-ms = <200>;
-            quick-tap-ms = <150>;
+            quick-tap-ms = <100>;
             flavor = "balanced";
             bindings = <&kp>, <&kp>;
             hold-trigger-key-positions = <KEYS_L THUMBS>;
@@ -148,11 +148,11 @@
             display-name = "DEF";
             bindings = <LAYER_FROM36( \
 // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-     &kp Q,        &kp W,        &kp F,        &kp P,        &kp B,            &kp J,        &kp L,        &kp U,        &kp Y,        &kp SQT,      \
+     &none,        &kp W,        &kp F,        &kp P,        &kp B,            &kp J,        &kp L,        &kp U,        &kp Y,        &none,        \
 // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
      &aml LCTRL A, &aml LGUI R,  &aml LALT S,  &asl LSHFT T, &kp G,            &kp M,        &asr RSHFT N, &amr RALT E,  &amr RGUI I,  &amr LCTRL O, \
 // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-     &kp Z,        &kp X,        &kp C,        &lt MSE D,    &kp V,            &kp K,        &kp H,        &kp COMMA,    &kp DOT,      &kp SLASH,    \
+     &none,        &kp X,        &kp C,        &lt MSE D,    &none,            &none,        &kp H,        &kp COMMA,    &kp DOT,      &none,        \
 // ╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
                                 &mt LGUI TAB, &mt LCTRL ESC, &lt NAV SPACE,    &mo SYM,     &mt RSHFT RET, &mt LALT DEL
 //                             ╰─────────────┴─────────────┴─────────────╯   ╰─────────────┴─────────────┴─────────────╯
@@ -180,7 +180,7 @@
 // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
      &kp EXCL,     &kp AT,       &kp HASH,     &kp DLLR,     &kp PRCNT,        &kp COMMA,    &kp N7,       &kp N8,       &kp N9,       &none,        \
 // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-     &kp PLUS,     &kp EQUAL,    &kp UNDER,    &kp MINUS,    &kp COLON,        &kp N0,       &kp N4,       &kp N5,       &kp N6,       &kp DOT,      \
+     &kp PLUS,     &kp EQUAL,    &kp UNDER,    &kp MINUS,    &kp COLON,        &kp SEMI,     &kp N4,       &kp N5,       &kp N6,       &kp N0,       \
 // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
      &none,        &kp PIPE,     &kp STAR,     &kp AMPS,     &none,            &none,        &kp N1,       &kp N2,       &kp N3,       &kp SLASH,    \
 // ╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
@@ -208,11 +208,11 @@
             display-name = "FUN";
             bindings = <LAYER_FROM36( \
 // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-     &kp F10,      &kp F7,       &kp F8,       &kp F9,       &to DEF,          &out OUT_USB, &out OUT_BLE, &none,        &none,        &none,        \
+     &kp F12,      &kp F7,       &kp F8,       &kp F9,       &to DEF,          &out OUT_USB, &out OUT_BLE, &none,        &none,        &none,        \
 // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
      &kp F11,      &kp F4,       &kp F5,       &kp F6,       &to QWE,          &bt BT_SEL 0, &bt BT_SEL 1, &bt BT_SEL 2, &bt BT_SEL 3, &bt BT_SEL 4, \
 // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-     &kp F12,      &kp F1,       &kp F2,       &kp F3,       &to ACC,           &none,        &kp CAPS,     &kp PSCRN, &kp PAUSE_BREAK, &none,       \
+     &kp F10,      &kp F1,       &kp F2,       &kp F3,       &to ACC,           &none,        &kp CAPS,     &kp PSCRN, &kp PAUSE_BREAK, &none,       \
 // ╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
                                  &kp LGUI,     &kp LCTRL,     &trans,           &trans,       &kp LSHFT,    &kp LALT
 //                             ╰─────────────┴─────────────┴─────────────╯   ╰─────────────┴─────────────┴─────────────╯
