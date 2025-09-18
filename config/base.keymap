@@ -10,9 +10,10 @@
 #define NAV 3
 #define FUN 4
 #define MSE 5
-#define ACC 6
+#define UNI 6
 
 #include <combos.dtsi>
+#include <unicode.dtsi>
 
 #define XXX &none
 #define ___ &trans

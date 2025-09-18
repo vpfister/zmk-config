@@ -1,3 +1,4 @@
+/********** includes **********/ 
 #include <behaviors.dtsi>
 #include <behaviors/num_word.dtsi> // Requires auto-layer module.
 #include <dt-bindings/zmk/keys.h>
@@ -5,26 +6,32 @@
 #include <dt-bindings/zmk/outputs.h>
 
 /********** layers **********/ 
-
 #define DEF 0
 #define QWE 1
 #define SYM 2
 #define NAV 3
 #define FUN 4
 #define MSE 5
-#define ACC 6
+#define UNI 6
 
-#include "combos.dtsi"
-#include "mouse.dtsi"
-
+/********** settings **********/ 
+#define HOST_OS 1
 #define XXX &none
 #define ___ &trans
 #define tcopy &tpht LC(LS(C)) LC(C)
 #define tpaste &tpht LC(LS(V)) LC(V)
 
+/********** other includes **********/ 
+#include "combos.dtsi"
+#include "mouse.dtsi"
+#include "unicode.dtsi"
+
+/********** macros **********/ 
+// macro to apply momemtary layer on hold, and sticky layer on tap
+// usually, in the destination layer, set the same key to &to <initial layer>
+#define MOSL(layer) &mo_sl layer layer
 
 /********** Global defaults **********/ 
-
 &mt {
     flavor = "hold-preferred";
     tapping-term-ms = <250>;
@@ -40,9 +47,12 @@
     mods = <(MOD_LSFT)>;
 };
 
+&sl {
+    release-after-ms = <2000>;
+};
+
 
 /********** layouts **********/ 
-
 / {
     behaviors {
         // home-row mods
@@ -54,7 +64,7 @@
             flavor = "balanced";
             bindings = <&kp>, <&kp>;
             hold-trigger-key-positions = <KEYS_R THUMBS>;
-            hold-trigger-on-release;
+            // hold-trigger-on-release;
             require-prior-idle-ms = <150>;
         };
         asl: alpha_shift_l {
@@ -65,7 +75,7 @@
             flavor = "balanced";
             bindings = <&kp>, <&kp>;
             hold-trigger-key-positions = <KEYS_R THUMBS>;
-            hold-trigger-on-release;
+            // hold-trigger-on-release;
         };
         amr: alpha_mods_r {
             compatible = "zmk,behavior-hold-tap";
@@ -75,7 +85,7 @@
             flavor = "balanced";
             bindings = <&kp>, <&kp>;
             hold-trigger-key-positions = <KEYS_L THUMBS>;
-            hold-trigger-on-release;
+            // hold-trigger-on-release;
             require-prior-idle-ms = <150>;
         };
         asr: alpha_shift_r {
@@ -86,7 +96,7 @@
             flavor = "balanced";
             bindings = <&kp>, <&kp>;
             hold-trigger-key-positions = <KEYS_L THUMBS>;
-            hold-trigger-on-release;
+            // hold-trigger-on-release;
         };
 
         // Swapper for smart alt+tab
@@ -129,6 +139,41 @@
             flavor = "balanced";
             bindings = <&kp>, <&kp>;
         };
+
+        mo_sl: mo_sl_hold_tap {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            flavor = "hold-preferred";
+            bindings = <&mo>, <&sl>;
+        };
+
+        slqr: sticky_layer_quick_release {
+            compatible = "zmk,behavior-sticky-key";
+            #binding-cells = <1>;
+            bindings = <&kp>;
+            release-after-ms = <2000>;
+            quick-release;
+        };
+
+        tgl_shft: togl_shft {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&slqr LSHFT>, <&kp K_CANCEL>;  // hack: F13 consumes the sticky shift, with hopefully no side effect
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        arrw: single_arrow {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&macro_tap &kp MINUS>, <&macro_tap &kp GT>;
+        };
+
+        dbarrw: double_arrow {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&macro_tap &kp EQUAL>, <&macro_tap &kp GT>;
+        };
     };
 
     cond_layers {
@@ -150,11 +195,11 @@
 // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
      &none,        &kp W,        &kp F,        &kp P,        &kp B,            &kp J,        &kp L,        &kp U,        &kp Y,        &none,        \
 // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-     &aml LCTRL A, &aml LGUI R,  &aml LALT S,  &asl LSHFT T, &kp G,            &kp M,        &asr RSHFT N, &amr LALT E,  &amr LGUI I,  &amr LCTRL O, \
+     &aml LCTRL A, &aml LGUI R,  &aml LALT S,  &kp T,        &kp G,            &kp M,        &kp N,        &amr LALT E,  &amr LGUI I,  &amr LCTRL O, \
 // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
      &none,        &kp X,        &kp C,        &lt MSE D,    &none,            &none,        &kp H,        &kp COMMA,    &kp DOT,      &none,        \
 // ╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
-                                &mt LGUI TAB, &mt LCTRL ESC, &lt NAV SPACE,    &mo SYM,     &mt RSHFT RET, &mt RALT DEL
+                                &mt LGUI TAB,  MOSL(UNI),   &lt NAV SPACE,     MOSL(SYM),    &tgl_shft,   &mt RS(RALT) DEL
 //                             ╰─────────────┴─────────────┴─────────────╯   ╰─────────────┴─────────────┴─────────────╯
             )>;
         };
@@ -169,7 +214,7 @@
 // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
      &kp Z,        &kp X,        &kp C,        &lt MSE V,    &kp B,            &kp N,        &kp M,        &kp COMMA,    &kp DOT,      &kp SLASH,    \
 // ╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
-                                 &mt LGUI TAB, &mt LCTRL ESC, &lt NAV SPACE,   &mo SYM,      &mt RSHFT RET, &mt RALT DEL
+                                  &trans,       &trans,      &trans,           &trans,       &trans,       &trans
 //                             ╰─────────────┴─────────────┴─────────────╯   ╰─────────────┴─────────────┴─────────────╯
             )>;
         };
@@ -184,7 +229,7 @@
 // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
      &none,        &kp PIPE,     &kp STAR,     &kp AMPS,     &none,            &none,        &kp N4,       &kp N5,       &kp N6,       &kp SLASH,    \
 // ╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
-                                 &kp LGUI,     &kp BSPC,     &trans,           &trans,       &none,        &kp LALT
+                                 &kp LGUI,     &kp BSPC,     &trans,           &to DEF,       &trans,        &kp LALT
 //                             ╰─────────────┴─────────────┴─────────────╯   ╰─────────────┴─────────────┴─────────────╯
             )>;
         };
@@ -199,7 +244,7 @@
 // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
      &none,        &kp LC(X), &tpht LC(LS(C)) LC(C), &tpht LC(LS(V)) LC(V), &none, &none,     &kp DEL,      &kp C_PREV,   &kp C_NEXT,   &none,        \
 // ╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
-                                 &kp LGUI,     &none,        &trans,           &trans,       &kp SPACE,    &kp LALT
+                                 &kp LGUI,     &none,        &trans,            &trans,       &trans,       &kp LALT
 //                             ╰─────────────┴─────────────┴─────────────╯   ╰─────────────┴─────────────┴─────────────╯
             )>;
         };
@@ -212,29 +257,13 @@
 // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
      &kp F11,      &kp F1,       &kp F2,       &kp F3,       &to QWE,          &bt BT_SEL 0, &bt BT_SEL 1, &bt BT_SEL 2, &bt BT_SEL 3, &bt BT_SEL 4, \
 // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-     &kp F10,      &kp F4,       &kp F4,       &kp F6,       &to ACC,           &none,        &kp CAPS,     &kp PSCRN, &kp PAUSE_BREAK, &none,       \
+     &kp F10,      &kp F4,       &kp F5,       &kp F6,       &to UNI,           &none,        &kp CAPS,     &kp PSCRN, &kp PAUSE_BREAK, &none,       \
 // ╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
-                                 &kp LGUI,     &kp LCTRL,     &trans,           &trans,       &kp LSHFT,    &kp LALT
+                                 &kp LGUI,     &kp LCTRL,     &trans,           &trans,       &trans,       &kp LALT
 //                             ╰─────────────┴─────────────┴─────────────╯   ╰─────────────┴─────────────┴─────────────╯
             )>;
         };
 
-/***************************************************************
-        mouse_layer {
-            display-name = "MSE";
-            bindings = <LAYER_FROM36( \            
-// ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-     &mkp MB5,     &mkp MB4,     &mkp RCLK,    &none,        &none,            &mkp RCLK,  &msc SCRL_DOWN, &mmv MOVE_UP, &msc SCRL_UP, &none,                \
-// ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-     &kp LCTRL,    &kp LGUI,     &kp LALT,     &kp LSHFT,    &none,        &msc SCRL_LEFT, &mmv MOVE_LEFT, &mmv MOVE_DOWN, &mmv MOVE_RIGHT, &msc SCRL_RIGHT, \
-// ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-     &none,        &mkp MCLK,    &mkp LCLK,    &none,        &none,            &none,        &mkp MB4,     &mkp MCLK,    &mkp MB5,     &none,                \
-// ╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
-                                 &none,        &none,        &trans,           &mkp LCLK,    &mkp RCLK,    &none                                             \
-//                             ╰─────────────┴─────────────┴─────────────╯   ╰─────────────┴─────────────┴─────────────╯
-            )>;
-        };
-***************************************************************/
         mouse_layer {
             display-name = "MSE";
             bindings = <LAYER_FROM36( \
@@ -250,20 +279,21 @@
             )>;
         };
 
-        accents_layer {
-            display-name = "ACC";
+        unicode_layer {
+            display-name = "UNI";
             bindings = <LAYER_FROM36( \
 // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-     &kp Q,        &kp W,        &kp F,        &kp P,        &kp B,            &kp J,        &kp L,        &kp U,        &kp Y,        &kp SQT,      \
+     &fr_a_dia,     &fr_u_dia,   &fr_u_grave,  &crncy_eur,   &kp GRAVE,        &kp DQT,      &sy_zero,     &fr_e_grave,  &fr_i_dia,    &fr_o_dia,    \
 // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-     &aml LCTRL A, &aml LGUI R,  &aml LALT S,  &asl LSHFT T, &kp G,            &kp M,        &asr RSHFT N, &amr RALT E,  &amr RGUI I,  &amr RCTRL O, \
+     &fr_a_grave,   &fr_a_circ,  &fr_u_circ,   &fr_e_dia,    &kp SQT,          &kp CARET,    &sy_parg,     &fr_e_acute,  &fr_i_circ,   &fr_o_circ,   \
 // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-     &kp Z,        &kp X,        &kp C,        &lt MSE D,    &kp V,            &kp K,        &kp H,        &kp COMMA,    &kp DOT,      &kp SLASH,    \
+     &none,        &fr_ae,       &fr_c_ced,    &fr_oe,       &none,            &none,        &de_eszett,   &fr_e_circ,    &sy_mul,      &none,        \
 // ╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
-                                 &mt LGUI TAB, &mt LCTRL ESC, &lt NAV SPACE,   &mo SYM,      &mt RSHFT RET, &mt LALT DEL
+                                 &none,        &to DEF,      &trans,           &kp LSHFT,    &tgl_shft,     &kp RS(RALT)
 //                             ╰─────────────┴─────────────┴─────────────╯   ╰─────────────┴─────────────┴─────────────╯
             )>;
         };
+
     };
 
 };

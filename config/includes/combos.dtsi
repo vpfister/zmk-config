@@ -17,7 +17,7 @@
         __VA_ARGS__ \
     };
 
-#define ALL DEF QWE SYM NAV FUN MSE ACC
+#define ALL DEF QWE SYM NAV FUN MSE UNI
 
 / {
     combos {
@@ -79,5 +79,9 @@ COMBO(btnxt,  &bt BT_NXT,    RM2 RM3,     FUN,         100, 200)
 COMBO(btclr,  &bt BT_CLR,    RB2 RB3,     FUN,         100, 200)
 COMBO(studio, &studio_unlock,RB1 RB2,     FUN,         100, 200)
 COMBO(bootld, &bootloader,   LT0 RT0,     FUN,         100, 500)
+
+// SYM
+COMBO(arrw,   &arrw,         LB2 LB1,     SYM,         100, 200)
+COMBO(dbarrw ,&dbarrw,       LB3 LB2,     SYM,         100, 200)
     };
 };
