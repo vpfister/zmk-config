@@ -21,7 +21,6 @@
 #define SYS 4
 #define MOUSE 5
 
-#define XXX &none
 #define ___ &trans
 
 /* Global defaults */
@@ -119,7 +118,9 @@ ZMK_ADAPTIVE_KEY(
       max-prior-idle-ms = <1200>;
       strict-modifiers;
     };)
-&caps_word { // Mods deactivate caps-word, requires PR #1451. [TODO: rebase]
+// Mods deactivate caps-word. Upstream PR #1451 (which would make this
+// configurable) was closed unmerged, so the workaround is permanent.
+&caps_word {
   /delete-property/ ignore-modifiers;
 };
 
@@ -181,7 +182,7 @@ ZMK_TAP_DANCE(copy_cut, bindings = <&kp LC(INS)>, <&kp LC(X)>;
 // Sticky shift + leader.
 ZMK_MACRO(leader_sft, bindings = <&sk LSHFT &leader>;)
 
-// Misc aliases. [TODO: clean up]
+// Misc aliases.
 #define CANCEL    &kp K_CANCEL            // Cancel caps-word & auto-layers.
 #define DSK_PREV  &hmr LCTRL LG(LC(LEFT)) // Previous desktop.
 #define DSK_NEXT  &hmr LALT LG(LC(RIGHT)) // Next     desktop.
