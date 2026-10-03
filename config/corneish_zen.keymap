@@ -1,3 +1,11 @@
+// Board adapter for the Corne-ish Zen (36-key split, foostan/Corne v2
+// template). Serves the build targets:
+//   corneish_zen_left@2.0.0//zmk  and  corneish_zen_right@2.0.0//zmk
+// (The '_v2' board names were replaced by hardware-manifest v2 names in
+// ZMK; the file keeps the historical name.)
+//
+// Entry point: places the shared 34-key base layout onto the board's
+// 36-key grid (extra thumb keys LGUI / smart_mouse on the left half).
 #define CONFIG_WIRELESS
 #define ZMK_BASE_LAYER(name, LT, RT, LM, RM, LB, RB, LH, RH)                   \
     ZMK_LAYER(                                                                 \
