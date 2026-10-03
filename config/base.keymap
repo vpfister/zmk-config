@@ -1,5 +1,7 @@
 #include <behaviors.dtsi>
-#include <behaviors/num_word.dtsi> // Requires auto-layer module.
+#include <behaviors/num_word.dtsi> // Requires zmk-auto-layer module.
+#include <behaviors/unicode.dtsi> // Requires zmk-unicode module.
+#include <zmk-helpers/helper.h> // Requires zmk-helpers module.
 #include <dt-bindings/zmk/keys.h>
 #ifdef CONFIG_WIRELESS
   #include <dt-bindings/zmk/bt.h>
@@ -10,9 +12,13 @@
   #define _BT_SEL_KEYS_ &trans &trans &trans &trans &trans
 #endif
 
-#include "zmk-helpers/helper.h"
-#include "zmk-helpers/unicode-chars/greek.dtsi"
-#include "zmk-helpers/unicode-chars/german.dtsi"
+// Default Unicode input system: macOS (Unicode Hex Input via Option key).
+// Switch at runtime with &uc UC_SET_LINUX / UC_SET_WIN_COMPOSE / ... (see
+// Sys layer). Requires "Unicode Hex Input" to be enabled as an input source
+// on macOS (System Settings > Keyboard > Input Sources).
+&uc {
+  default-mode = <UC_MODE_MACOS>;
+};
 
 #define DEF 0
 #define NAV 1
@@ -44,13 +50,8 @@
 
 /* Homerow mods */
 
-#define KEYS_L LT0 LT1 LT2 LT3 LT4 LM0 LM1 LM2 LM3 LM4 LB0 LB1 LB2 LB3 LB4
-#define KEYS_R RT0 RT1 RT2 RT3 RT4 RM0 RM1 RM2 RM3 RM4 RB0 RB1 RB2 RB3 RB4
-#ifndef LH2
-  #define THUMBS LH1 LH0 RH0 RH1         // Thumbs on 34 keys.
-#else
-  #define THUMBS LH2 LH1 LH0 RH0 RH1 RH2 // Thumbs on 36+ keys.
-#endif
+// KEYS_L, KEYS_R and THUMBS are provided by the key-labels header included by
+// each board's entry keymap (zmk-helpers >= 2026-03-04).
 
 #define MAKE_HRM(NAME, HOLD, TAP, TRIGGER_POS)                                 \
   ZMK_HOLD_TAP(NAME, bindings = <HOLD>, <TAP>; flavor = "balanced";            \
@@ -140,8 +141,11 @@ ZMK_TRI_STATE(
 
 /* Custom behaviors */
 
-// Alt+Tab swapper, requires tri-state module.
-ZMK_TRI_STATE(swapper, bindings = <&kt LALT>, <&kp TAB>, <&kt LALT>;
+// One-handed app switcher, requires tri-state module.
+// SWAP_MOD selects the switcher modifier: LALT for Windows/Linux (Alt-Tab),
+// LGUI for macOS (Cmd-Tab).
+#define SWAP_MOD LALT
+ZMK_TRI_STATE(swapper, bindings = <&kt SWAP_MOD>, <&kp TAB>, <&kt SWAP_MOD>;
               ignored-key-positions = <LT2 RT2 RM1 RM2 RM3>;)
 
 // Define mod-morph with a *single* mod trigger for less repetition.
@@ -184,11 +188,12 @@ ZMK_MACRO(leader_sft, bindings = <&sk LSHFT &leader>;)
 
 // Misc aliases.
 #define CANCEL    &kp K_CANCEL            // Cancel caps-word & auto-layers.
-#define DSK_PREV  &hmr LCTRL LG(LC(LEFT)) // Previous desktop.
-#define DSK_NEXT  &hmr LALT LG(LC(RIGHT)) // Next     desktop.
-#define PIN_WIN   &kp LG(LC(LS(Q)))       // Pin window across desktops.
-#define PIN_APP   &kp LG(LC(LS(A)))       // Pin application across desktops.
-#define DSK_MGR   &kp LA(GRAVE)           // Desktop manager.
+#define CLOSE_WIN &kp LC(W)               // Close window (Cmd+W on macOS).
+#define DSK_PREV  &hmr LCTRL LG(LC(LEFT)) // Previous desktop/space.
+#define DSK_NEXT  &hmr LALT LG(LC(RIGHT)) // Next     desktop/space.
+// Mission Control on macOS (Cmd+F3); on Linux/Windows this is a harmless
+// no-op combo, so it doubles as a safe cross-platform binding.
+#define DSK_MGR   &kp LG(F3)              // Mission Control (macOS).
 #define VOL_DOWN  &hmr RSHFT C_VOL_DN
 
 /* Keymap */
@@ -214,7 +219,7 @@ ZMK_BASE_LAYER(Base,
 
 ZMK_BASE_LAYER(Nav,
 //╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-    ___           ___           &kp LS(TAB)   &swapper      ___         ,   &kp PG_UP     NAV_BSPC      NAV_UP        NAV_DEL       ___         ,
+    CLOSE_WIN     ___           &kp LS(TAB)   &swapper      ___         ,   &kp PG_UP     NAV_BSPC      NAV_UP        NAV_DEL       ___         ,
 //├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
     &sk LGUI      &sk LALT      &sk LSHFT     &sk LCTRL     ___         ,   &kp PG_DN     NAV_LEFT      NAV_DOWN      NAV_RIGHT     &kp RET     ,
 //├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
@@ -230,7 +235,7 @@ ZMK_BASE_LAYER(Fn,
 //├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
     &hml LGUI F11 &hml LALT F4  &hml LSHFT F5 &hml LCTRL F6 ___         ,   ___           DSK_PREV      VOL_DOWN      DSK_NEXT      ___         ,
 //├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-    &kp F10       &kp F1        &kp F2        &kp F3        ___         ,   PIN_APP       PIN_WIN       DSK_MGR       ___           ___         ,
+    &kp F10       &kp F1        &kp F2        &kp F3        ___         ,   CLOSE_WIN     ___           DSK_MGR       ___           ___         ,
 //╰─────────────┼─────────────┴─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┴───────────────────────────╯
                                               ___           ___         ,   &kp C_MUTE    &kp C_PP
 //                                          ╰─────────────┴─────────────╯ ╰─────────────┴─────────────╯
@@ -250,7 +255,7 @@ ZMK_BASE_LAYER(Num,
 
 ZMK_BASE_LAYER(Sys,
 //╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-                               _BT_SEL_KEYS_                            ,   ___           ___           ___           ___           ___         ,
+                               _BT_SEL_KEYS_                            ,   &uc UC_SET_MACOS &uc UC_SET_LINUX &uc UC_SET_WIN_COMPOSE ___           ___         ,
 //├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
     ___           ___           ___           ___           &bootloader ,   &bootloader   ___           ___           ___           ___         ,
 //├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
