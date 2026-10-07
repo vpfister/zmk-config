@@ -41,7 +41,7 @@ local setup at all.
    echo 'source $HOME/.nix-profile/share/nix-direnv/direnvrc' >> ~/.config/direnv/direnvrc
 
    # Optional: make direnv less verbose
-   echo '[global]\nwarn_timeout = "2m"\nhide_env_diff = true' >> ~/.config/direnv/direnv.toml
+   printf '%s\n' '[global]' 'warn_timeout = "2m"' 'hide_env_diff = true' >> ~/.config/direnv/direnv.toml
 
    # Source the bashrc to activate the hook (or start a new shell)
    source ~/.bashrc

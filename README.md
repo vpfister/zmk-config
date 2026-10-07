@@ -147,7 +147,7 @@ The keymap consists of six layers on top of a Colemak-DH base:
 | Layer     | Access                                               | Contents                                                                                                             |
 | --------- | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
 | **Base**  | default                                              | Colemak-DH with homerow mods                                                                                         |
-| **Nav**   | hold left thumb (Space)                              | Arrow cluster (hold for word/page navigation), Alt-Tab swapper, Alt-F4 shortcut, `CANCEL` all layers and smart-modes |
+| **Nav**   | hold left thumb (Space)                              | Arrow cluster (hold for word/page navigation), OS-specific app switcher and close-window shortcut, `CANCEL` all layers and smart-modes |
 | **Fn**    | hold left thumb (Return)                             | F-keys (mirroring the numpad layout), media controls, desktop shortcuts                                              |
 | **Num**   | tap Smart-Num for Numword, hold for momentary        | Numpad on the left half                                                                                              |
 | **Sys**   | Num + Fn (must hold Num first)                       | Bluetooth profiles, bootloader, reset                                                                                |
@@ -345,7 +345,7 @@ document` keys.)
 
 I am using [Nick Conway](https://github.com/nickconway)'s fantastic
 [tri-state](https://github.com/zmkfirmware/zmk/pull/1366) behavior, implemented as a module, for
-a one-handed Alt-Tab switcher (`PWin` and `NWin`).
+a one-handed app switcher (`PWin` and `NWin`), using Cmd on Mac and Alt on Linux.
 
 #### Leader key
 
@@ -356,34 +356,32 @@ usage, and various system commands (e.g., to toggle Bluetooth). See
 [`leader.dtsi`](https://github.com/vpfister/zmk-config/blob/main/config/leader.dtsi) for the full list
 of leader key sequences.
 
-##### Unicode input & macOS
+##### Mac and Linux modes
 
-Unicode sequences (umlauts, Greek letters) are emitted through the
-[zmk-unicode](https://github.com/urob/zmk-unicode) module, which supports
-several host input systems and can switch between them at runtime:
+Hold **Fn + Num** to open Sys, then press **Mac** (right top-row inner key)
+or **Linux** (the next key). Each selects shortcuts and Unicode input together.
+Typing, home-row modifiers, and Bluetooth selection stay shared. The keyboard
+starts in Mac mode after every reboot; select the mode again when changing hosts.
 
-| Host | Mode | Setup |
+| Action | Mac | Linux |
 |---|---|---|
-| macOS | `UC_MODE_MACOS` (default here) | Enable the **Unicode Hex Input** input source (System Settings > Keyboard > Input Sources > Other). Emits Option+hex. |
-| Linux (IBus) | `UC_MODE_LINUX` | Works out of the box on IBus/GTK; emits Ctrl+Shift+U ... Space. |
-| Windows | `UC_MODE_WIN_COMPOSE` | Requires [WinCompose](https://wincompose.info/). |
+| App switcher | Cmd+Tab | Alt+Tab |
+| Close window | Cmd+W | Alt+F4 |
+| Copy / cut / paste combos | Cmd+C / X / V | Ctrl+Insert / Ctrl+X / Shift+Insert |
+| Nav long-press: line start / end | Cmd+Left / Right | Home / End |
+| Nav long-press: document start / end | Cmd+Up / Down | Ctrl+Home / End |
+| Nav long-press: delete word | Option+Backspace / Delete | Ctrl+Backspace / Delete |
+| Previous / next desktop | Ctrl+Left / Right | Super+Ctrl+Left / Right |
+| Mission Control / desktop shortcut | Ctrl+Up | Alt+Grave |
 
-The Sys layer has three keys (`Mac`, `Linux`, `Win`) bound to `&uc UC_SET_*`
-to switch the active input system without reflashing -- useful when moving the
-keyboard between machines. Note that `&uc UC_SET_*` must be pressed without
-active modifiers.
+Linux desktop shortcuts retain the original bindings and depend on the window
+manager's configuration. Mac shortcuts assume the standard macOS bindings.
 
-##### macOS keys
-
-The layout is macOS-first but stays cross-platform:
-
-- **Close window:** `Cmd+W` (`CLOSE_WIN`) on the Nav and Fn layers.
-- **Mission Control:** `Cmd+F3` (`DSK_MGR`) on the Fn layer.
-- **App switcher:** the `&swapper` tri-state sends `SWAP_MOD+Tab`; `SWAP_MOD` is
-  `LALT` (Alt-Tab) by default. Set `#define SWAP_MOD LGUI` in
-  `config/base.keymap` for macOS-style Cmd-Tab.
-- **Desktop/space navigation:** `DSK_PREV`/`DSK_NEXT` use `GUI+Ctrl+Left/Right`,
-  which maps to "Move left/right a space" on macOS.
+Unicode leader sequences use [zmk-unicode](https://github.com/urob/zmk-unicode).
+On Mac, add and select **Unicode Hex Input** under System Settings → Keyboard →
+Input Sources → Other; the firmware emits Option plus four hex digits. Linux
+mode emits Ctrl+Shift+U, hex digits, then Space, requiring an input method or
+application that supports this sequence (such as IBus/GTK).
 
 ### Known issues and workarounds
 

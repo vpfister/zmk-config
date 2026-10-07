@@ -10,8 +10,10 @@ parse_config:
     "&sys_reset": Reset
     "&bootloader": Boot
     "&caps_word": Caps Word
-    "&kp LC(W)": Close
-    "&kp LG(F3)": Mission
+    "&kp LG(W)": Close
+    "&kp LA(F4)": Close
+    "&kp LC(UP)": Mission
+    "&kp LA(GRAVE)": Desktop
 
     "&bt BT_SEL 0": BT 1
     "&bt BT_SEL 1": BT 2
@@ -21,15 +23,20 @@ parse_config:
     "&kp LC(INS)": Copy
     "&kp LC(X)": Cut
     "&kp LS(INS)": Paste
+    "&kp LG(C)": Copy
+    "&kp LG(X)": Cut
+    "&kp LG(V)": Paste
 
+    "&kp LC(LEFT)": PDesk
+    "&kp LC(RIGHT)": NDesk
     "&kp LG(LC(LEFT))": PDesk
     "&kp LG(LC(RIGHT))": NDesk
 
-    "&uc UC_SET_MACOS": Mac
-    "&uc UC_SET_LINUX": Linux
-    "&uc UC_SET_WIN_COMPOSE": Win
+    "&os_mac": Mac
+    "&os_linux": Linux
 
     "&swapper": NWin
+    "&swapper_linux": NWin
     "&kp LS(TAB)": PWin
     "&dot_spc": Sentence
     "&num_dance": { "t": "Smart"}
@@ -64,6 +71,9 @@ parse_config:
 
   zmk_combos:
     combo_cut: { align: bottom, o: 0.15 }
+    combo_cut_linux: { hidden: true }
+    combo_copy_linux: { hidden: true }
+    combo_paste_linux: { hidden: true }
     combo_ldrsh: { align: top, o: 1.35 }
 
     combo_lt: { hidden: true }

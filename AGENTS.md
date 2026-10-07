@@ -48,7 +48,7 @@ keymap that must, in this order:
 3. include the matching key-labels header from zmk-helpers,
 4. `#include "base.keymap"`.
 
-`config/corneish_zen.keymap` is a minimal reference example; `config/planck_rev6.keymap` shows a
+`config/corneish_zen.keymap` is a minimal reference example; `config/planck.keymap` shows a
 non-split, wired board; `config/glove80.keymap` shows a much larger board.
 
 ## Adding a new board
@@ -77,7 +77,7 @@ non-split, wired board; `config/glove80.keymap` shows a much larger board.
    [key_labels.md](https://github.com/urob/zmk-helpers/blob/main/docs/key_labels.md#standardization).
 
 4. **Create `config/<board>.keymap`** following the four-step structure above. Start from
-   `corneish_zen.keymap` for wireless splits or `planck_rev6.keymap` for wired boards. When
+   `corneish_zen.keymap` for wireless splits or `planck.keymap` for wired boards. When
    mapping the blocks in `ZMK_BASE_LAYER`, keep the 34 base positions in their standard relative
    locations and spend spare physical keys on duplicates or extras (the existing adapters use
    `&kp LGUI` and `&smart_mouse`).
