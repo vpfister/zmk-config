@@ -1,3 +1,8 @@
+// Board adapter for the Moergo Glove80 (80-key split).
+// Serves the build targets: glove80_lh/nrf52840 and glove80_rh/nrf52840
+//
+// Entry point: places the shared 34-key base layout onto the Glove80's
+// larger grid, filling extra keys with function keys / arrows.
 #define CONFIG_WIRELESS
 #define ZMK_BASE_LAYER(name, LT, RT, LM, RM, LB, RB, LH, RH)                                      \
     ZMK_LAYER(                                                                                    \

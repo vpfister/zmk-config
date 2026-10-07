@@ -1,3 +1,8 @@
+// Board adapter for the OLKB Planck Rev6 (48-key wired ortholinear).
+// Serves the build target: planck@6.0.0//zmk
+//
+// Entry point: places the shared 34-key base layout onto the 4x12 grid,
+// padding the inner columns with &none.
 #define ZMK_BASE_LAYER(name, LT, RT, LM, RM, LB, RB, LH, RH)                   \
     ZMK_LAYER(                                                                 \
         name,                                                                  \
